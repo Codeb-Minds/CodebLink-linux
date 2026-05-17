@@ -2,6 +2,8 @@
 
 Codeb Link is a background synchronization suite designed to seamlessly bridge your Linux desktop clipboard and files with your Android device. Engineered with Electron, React, TypeScript, and Vite, it handles real-time data transfers over local network tunnels.
 
+> 📱 **Mobile Companion**: This desktop client pairs with the Android companion application. The source code and instructions for the mobile app can be found at [CodebLink-app](https://github.com/Codeb-Minds/CodebLink-app).
+
 ---
 
 ## 🎯 Purpose & Problem Solver
