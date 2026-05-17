@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# Codeb Link — Desktop Client (Linux/Electron)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Codeb Link is a background synchronization suite designed to seamlessly bridge your Linux desktop clipboard and files with your Android device. Engineered with Electron, React, TypeScript, and Vite, it handles real-time data transfers over local network tunnels.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🎯 Purpose & Problem Solver
 
-## React Compiler
+Codeb Link is built to resolve key user experience and system issues common to cross-device utility tools:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Clipboard Sync Failures on Linux**: Standard Electron and Node APIs often fail to write directly to Linux system clipboard registers under different display environments. Codeb Link integrates active fallbacks to native command-line clipboards on both Wayland and X11.
+2. **Electron Event Loop Hanging**: When users select text inside an Electron window, the event loop can freeze or delay clipboard-read operations. Codeb Link implements an auto-reset mechanism that clears selections after 1 second, restoring normal clipboard event cycles.
+3. **Inconsistent Drag-and-Drop Catching**: Traditional drag zones fail if files are dropped on inner text/icons or if inside-browser components (like QR images) are dragged. Codeb Link uses pointer event mitigation and a dynamic link parser to download and sync dragged assets automatically.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Core Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Dual-Channel Synchronization**: Seamlessly shifts between dynamic active sockets (foreground sync) and power-efficient background long-polling ("Ghost" channel).
+- **Universal Drag-and-Drop Zone**: Dropping any local file or dragging in-app graphic elements initiates background transfers.
+- **End-to-End Encryption**: Encrypts clipboard contents client-side using **AES-256** (via CryptoJS) matched to a shared key synced via QR Code.
+- **Collapsible System Telemetry**: Offers a toggleable telemetry panel to inspect network connections, data logs, and system pulses.
+- **Wayland & X11 Compatibility**: Features a dedicated clipboard writer pipeline targeting multiple display-server backends.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ System Requirements & Fallbacks
+
+To ensure reliable clipboard synchronization across all Linux display environments, make sure the following command-line tools are installed:
+
+- **For Wayland Display Servers**: `wl-clipboard` (`wl-copy` and `wl-paste` commands)
+- **For X11 Display Servers**: `xclip` and/or `xsel`
+
+Install them via your package manager:
+```bash
+# Ubuntu/Debian
+sudo apt update && sudo apt install wl-clipboard xclip xsel
+
+# Fedora/RHEL
+sudo dnf install wl-clipboard xclip xsel
+
+# Arch Linux
+sudo pacman -S wl-clipboard xclip xsel
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Setup & Development
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Follow these instructions to run and build the desktop client:
+
+### 1. Install Dependencies
+Navigate to the app directory and install npm packages:
+```bash
+cd linux-app
+npm install
+```
+
+### 2. Run in Development Mode
+Launches the Vite server and the Electron runtime concurrently:
+```bash
+npm run dev
+```
+
+### 3. Compile Main TypeScript Code
+Compiles `electron/main.ts` into Node-executable `main.js`:
+```bash
+npm run build:main
 ```
