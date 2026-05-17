@@ -1,0 +1,56 @@
+{
+  "name": "codeb-link",
+  "version": "1.0.0",
+  "description": "Codeb Link — Cross-device clipboard & file sync over LAN",
+  "homepage": "https://link.codebminds.com",
+  "author": "Codeb Minds <contact@codebminds.com>",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "build:main": "tsc -p tsconfig.electron.json && cp icon.png dist-electron/",
+    "build:renderer": "vite build",
+    "build": "npm run build:main && npm run build:renderer",
+    "dev": "npm run build:main && concurrently \"vite\" \"VITE_DEV_SERVER_URL=http://localhost:5173 electron . --no-sandbox\"",
+    "start": "electron . --no-sandbox",
+    "dist": "npm run build && electron-builder --linux"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "socket.io": "^4.8.3",
+    "crypto-js": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/crypto-js": "^4.2.2",
+    "@vitejs/plugin-react": "^4.0.0",
+    "concurrently": "^8.0.0",
+    "electron": "^26.0.0",
+    "electron-builder": "^24.0.0",
+    "typescript": "~5.0.0",
+    "vite": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.codebminds.codeblink",
+    "productName": "Codeb Link",
+    "icon": "icon.png",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "preload.js",
+      "package.json",
+      "icon.png",
+      "favicon.svg",
+      "icons.svg",
+      "node_modules/**/*"
+    ],
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Network"
+    }
+  }
+}
