@@ -52,9 +52,8 @@ sudo pacman -S wl-clipboard xclip xsel
 Follow these instructions to run and build the desktop client:
 
 ### 1. Install Dependencies
-Navigate to the app directory and install npm packages:
+Install the required npm packages directly from the repository root:
 ```bash
-cd linux-app
 npm install
 ```
 
