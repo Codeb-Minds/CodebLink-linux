@@ -17,7 +17,9 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "socket.io": "^4.8.3",
-    "crypto-js": "^4.2.0"
+    "crypto-js": "^4.2.0",
+    "electron-updater": "^6.8.9",
+    "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -34,6 +36,7 @@
   "build": {
     "appId": "com.codebminds.codeblink",
     "productName": "Codeb Link",
+    "artifactName": "Codeb-Link-${version}.${ext}",
     "icon": "icon.png",
     "directories": {
       "output": "release"
@@ -51,6 +54,15 @@
     "linux": {
       "target": ["AppImage", "deb"],
       "category": "Network"
-    }
+    },
+    "deb": {
+      "artifactName": "Codeb-Link-${version}-amd64.${ext}"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://updates.codebminds.com/link/releases/"
+      }
+    ]
   }
 }
